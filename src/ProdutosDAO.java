@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProdutosDAO {
@@ -45,9 +46,31 @@ public class ProdutosDAO {
         
     }
     
-    public ArrayList<ProdutosDTO> listarProdutos(){
+    public List<ProdutosDTO> listarProdutos(){
         
-        return listagem;
+        List<ProdutosDTO> lista = new ArrayList<>();
+        String sql = "SELECT * FROM produtos";
+
+        try (Connection con = conectaDAO.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setValor(rs.getInt("valor"));
+                p.setStatus(rs.getString("status"));
+
+                lista.add(p);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,
+                "Erro ao tentar listar os filmes!");
+        }
+
+        return lista;  
     }
     
     
