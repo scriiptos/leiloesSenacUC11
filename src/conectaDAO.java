@@ -17,17 +17,15 @@ import javax.swing.JOptionPane;
  */
 public class conectaDAO {
     
-    public Connection connectDB(){
-        Connection conn = null;
-        
+     public static Connection conectar() 
+    {
         try {
-        
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/uc11?user=root&password=");
-            
-        } catch (SQLException erro){
-            JOptionPane.showMessageDialog(null, "Erro ConectaDAO" + erro.getMessage());
+            String url = "jdbc:mysql://localhost:3306/uc11?useSSL=false";
+            return DriverManager.getConnection(url, "root", "Leafar_47");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"Erro ao conectar ao banco!" + e);
+            return null;
         }
-        return conn;
     }
     
 }
